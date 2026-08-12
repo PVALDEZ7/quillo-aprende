@@ -1,0 +1,1 @@
+export default function Menu({go}){return <nav className="menu"><button onClick={()=>go('home')}>Inicio</button><button onClick={()=>go('student')}>Estudiante</button><button onClick={()=>go('teacher-login')}>Docente</button><button onClick={()=>go('admin-login')}>Administrador</button></nav>}

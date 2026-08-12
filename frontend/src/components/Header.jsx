@@ -1,0 +1,1 @@
+export default function Header({onHome}){return <header className="header"><button className="brand" onClick={onHome}><span className="logo">QA</span><span><b>Quillo Aprende</b><small>Educación para todos, desarrollo para Quillo</small></span></button></header>}

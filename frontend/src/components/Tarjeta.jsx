@@ -1,0 +1,1 @@
+export default function Tarjeta({m,onOpen}){return <article className="card"><span className="pill">{m.nivel_nombre}</span><h3>{m.titulo}</h3><p>{m.descripcion}</p><small>{m.area_nombre} · {m.subarea_nombre}</small><button className="primary" onClick={()=>onOpen(m)}>Aprender y practicar</button></article>}

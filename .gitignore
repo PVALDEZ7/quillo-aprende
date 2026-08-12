@@ -1,0 +1,24 @@
+# Dependencias y builds
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+
+# Variables y secretos
+.env
+.env.local
+.env.*.local
+backend/.env
+frontend/.env
+
+# Vercel
+.vercel/
+**/.vercel/
+
+# Backups locales de base de datos
+database/backups/
+*.sql.gz
+
+# Sistema
+.DS_Store
+Thumbs.db

@@ -1,0 +1,106 @@
+:root{font-family:Inter,system-ui,sans-serif;color:#17324a;background:#f4f8fb;line-height:1.55}*{box-sizing:border-box}body{margin:0}button,input,select,textarea{font:inherit}button{border:1px solid #c9d9e5;background:#fff;color:#17324a;border-radius:10px;padding:.65rem 1rem;cursor:pointer}.primary{background:#1677c8;color:white;border-color:#1677c8}.danger{color:#b42318;border-color:#efc8c4}.header{background:#fff;border-bottom:1px solid #e2edf4}.brand{max-width:1180px;margin:auto;width:100%;border:0;display:flex;align-items:center;gap:.75rem;text-align:left}.brand span:last-child{display:flex;flex-direction:column}.brand small{color:#60778a}.logo{width:44px;height:44px;border-radius:12px;background:#1677c8;color:#fff;display:grid;place-items:center;font-weight:900}.menu{display:flex;justify-content:center;gap:.5rem;background:#0b3c69;padding:.6rem;position:sticky;top:0;z-index:5}.menu button{background:transparent;color:#fff;border:0}.container{max-width:1180px;margin:auto;padding:1.5rem}.footer{text-align:center;padding:2rem;color:#6b7f8f}.hero{display:grid;grid-template-columns:1fr 240px;gap:2rem;align-items:center;background:linear-gradient(135deg,#e9f6ff,#edf9f1);border-radius:24px;padding:3rem}.hero h1{font-size:clamp(2.2rem,5vw,4rem);line-height:1;margin:.35rem 0 1rem}.hero p{font-size:1.1rem;color:#526b7d}.eyebrow{font-size:.78rem;letter-spacing:.08em;font-weight:800;color:#16864a}.heroBox{background:#fff;border-radius:20px;padding:1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:.5rem;text-align:center}.heroBox strong{font-size:3rem;color:#16864a}.big{padding:.85rem 1.2rem;font-weight:700}.actions{display:flex;gap:.6rem;flex-wrap:wrap}.features,.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1rem}.features article,.card,.panel,.stats article{background:#fff;border:1px solid #dfeaf2;border-radius:16px;padding:1.1rem;box-shadow:0 8px 24px rgba(42,80,110,.05)}.card{display:flex;flex-direction:column}.card p{color:#607587;flex:1}.card small{margin-bottom:.8rem;color:#677f91}.pill,.status{display:inline-block;background:#eaf7ef;color:#176c3d;border-radius:999px;padding:.3rem .6rem;font-size:.78rem;font-weight:800}.title{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:1rem}.title h2{margin:.2rem 0}.filters{display:grid;grid-template-columns:2fr repeat(3,1fr);gap:.7rem}.filters3{display:grid;grid-template-columns:2fr 1fr 1fr;gap:.7rem}.filters input,.filters select,.filters3 input,.filters3 select,.form input,.form select,.form textarea,.login input{width:100%;padding:.7rem;border:1px solid #cbdbe7;border-radius:10px;background:#fff}.form{display:grid;gap:.8rem;margin-bottom:1rem}.form label,.login label{display:grid;gap:.3rem;font-weight:650}.row{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:.8rem;border-bottom:1px solid #e3edf3}.back{position:fixed;inset:0;background:rgba(10,28,43,.62);display:grid;place-items:center;padding:1rem;z-index:20}.modal{width:min(780px,100%);max-height:92vh;overflow:auto;background:white;border-radius:18px;padding:1.5rem;position:relative}.close{position:absolute;right:1rem;top:1rem;border:0;font-size:1.4rem}.opt{display:block;padding:.3rem}fieldset{border:1px solid #dce8ef;border-radius:12px;margin:1rem 0}.score,.notice{margin:1rem 0;background:#eef8f2;border-radius:10px;padding:.9rem}.loginpage{min-height:60vh;display:grid;place-items:center}.login{width:min(430px,100%);background:#fff;border:1px solid #dfeaf2;border-radius:18px;padding:2rem;display:grid;gap:.85rem}.error{background:#fff1f0;color:#92271f;padding:.8rem;border-radius:10px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1rem}.stats article{text-align:center}.stats b{display:block;font-size:2rem;color:#1677c8}.stats span{color:#607587}.twocol{display:grid;grid-template-columns:1fr 1.5fr;gap:1rem}hr{border:0;border-top:1px solid #e2ebf1;margin:1.5rem 0}@media(max-width:850px){.hero{grid-template-columns:1fr}.heroBox{display:none}.features,.cards{grid-template-columns:repeat(2,1fr)}.filters,.filters3,.row,.twocol{grid-template-columns:1fr}}@media(max-width:560px){.container{padding:1rem}.menu{justify-content:flex-start;overflow:auto}.features,.cards,.stats{grid-template-columns:1fr}.title{align-items:flex-start;flex-direction:column}}
+
+/* Portada principal basada en el diseño institucional de Quillo Aprende */
+.coverPage{
+  min-height:100vh;
+  background:#dff3ff;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  overflow-x:hidden;
+}
+.coverFrame{
+  position:relative;
+  width:min(100%,1489px);
+  margin:0 auto;
+  line-height:0;
+  background:#fff;
+  box-shadow:0 18px 55px rgba(10,57,105,.18);
+}
+.coverArtwork{
+  display:block;
+  width:100%;
+  height:auto;
+  user-select:none;
+  -webkit-user-drag:none;
+}
+.coverHotspot{
+  position:absolute;
+  z-index:3;
+  padding:0;
+  margin:0;
+  border:0;
+  border-radius:26px;
+  background:transparent;
+  cursor:pointer;
+  transition:box-shadow .18s ease, transform .18s ease, background .18s ease;
+}
+.coverHotspot:hover{
+  background:rgba(255,255,255,.06);
+  box-shadow:0 0 0 4px rgba(255,255,255,.72),0 12px 28px rgba(3,60,115,.22);
+  transform:translateY(-2px);
+}
+.coverHotspot:focus-visible{
+  outline:4px solid #ffb000;
+  outline-offset:3px;
+}
+.coverHotspotStudent{
+  left:16.3%;
+  top:78.6%;
+  width:32.1%;
+  height:13.3%;
+}
+.coverHotspotTeacher{
+  left:51.5%;
+  top:78.6%;
+  width:32.1%;
+  height:13.3%;
+}
+.srOnly{
+  position:absolute;
+  width:1px;
+  height:1px;
+  padding:0;
+  margin:-1px;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+  white-space:nowrap;
+  border:0;
+}
+.coverMobileActions{
+  display:none;
+  width:100%;
+  max-width:720px;
+  padding:14px 16px 22px;
+  gap:10px;
+}
+.coverMobileActions button{
+  width:100%;
+  border:0;
+  color:#fff;
+  font-weight:800;
+  padding:.9rem 1rem;
+  border-radius:14px;
+  box-shadow:0 8px 20px rgba(15,64,105,.15);
+}
+.coverMobileStudent{background:#18a33a!important}
+.coverMobileTeacher{background:#0872bd!important}
+@media(max-width:700px){
+  .coverFrame{box-shadow:none}
+  .coverHotspot{display:none}
+  .coverMobileActions{display:grid}
+}
+
+/* Editor de reto para el módulo docente */
+.questionEditor{margin-top:.4rem;padding-top:.4rem;border-top:1px solid #e2ebf1}
+.questionEditorHead{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;margin:.35rem 0 .6rem}
+.questionEditorHead h3{margin:.15rem 0}
+.questionEditorHead small{max-width:430px;color:#607587}
+.questionBox{padding:1rem 1.1rem;background:#fbfdff;border:1px solid #d6e5ef;border-radius:14px}
+.questionBox legend{padding:0 .45rem;font-weight:800;color:#17324a}
+.questionBox>label{display:grid;gap:.3rem;font-weight:650;margin:.5rem 0}
+.questionOptions{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin:.7rem 0}
+.questionOptions label{display:grid;gap:.3rem;font-weight:650}
+.questionBox input,.questionBox select{width:100%;padding:.7rem;border:1px solid #cbdbe7;border-radius:10px;background:#fff}
+@media(max-width:700px){.questionEditorHead{align-items:flex-start;flex-direction:column}.questionOptions{grid-template-columns:1fr}}
