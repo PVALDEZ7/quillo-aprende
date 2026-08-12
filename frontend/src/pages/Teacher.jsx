@@ -1,15 +1,58 @@
-import {useEffect,useMemo,useState} from 'react';import {api} from '../services/api';import Formulario from '../components/Formulario';import Tabla from '../components/Tabla';import{demoAreas,demoLevels,demoSubareas}from'../data/demoData';
+import {useEffect,useMemo,useState} from 'react';
+import {api} from '../services/api';
+import Formulario from '../components/Formulario';
+import Tabla from '../components/Tabla';
+import{demoAreas,demoLevels,demoSubareas}from'../data/demoData';
+
 export default function Teacher(){
- const[catalog,setCatalog]=useState({levels:demoLevels,areas:demoAreas,subareas:demoSubareas});const[rows,setRows]=useState([]);const[editing,setEditing]=useState(null);const[q,setQ]=useState('');const[nivel,setNivel]=useState('');const[area,setArea]=useState('');const[msg,setMsg]=useState('');
- const load=async()=>{try{const[c,m]=await Promise.all([api.catalog(),api.materials()]);setCatalog(c);setRows(m)}catch(e){setMsg(e.message)}};useEffect(()=>{load()},[]);
+ const[catalog,setCatalog]=useState({levels:demoLevels,areas:demoAreas,subareas:demoSubareas});
+ const[rows,setRows]=useState([]);
+ const[editing,setEditing]=useState(null);
+ const[q,setQ]=useState('');
+ const[nivel,setNivel]=useState('');
+ const[area,setArea]=useState('');
+ const[msg,setMsg]=useState(null);
+
+ const load=async()=>{
+  try{const[c,m]=await Promise.all([api.catalog(),api.materials()]);setCatalog(c);setRows(m)}
+  catch(e){setMsg({type:'error',text:e.message})}
+ };
+ useEffect(()=>{load()},[]);
+
  const filtered=useMemo(()=>rows.filter(r=>(!q||r.titulo.toLowerCase().includes(q.toLowerCase()))&&(!nivel||r.id_nivel==nivel)&&(!area||r.id_area==area)),[rows,q,nivel,area]);
- const save=async x=>{try{editing?await api.updateMaterial(editing.id_material,x):await api.createMaterial(x);setEditing(null);setMsg('Material guardado correctamente.');load()}catch(e){setMsg(e.message)}};
- const del=async id=>{if(!confirm('¿Eliminar este material?'))return;try{await api.deleteMaterial(id);setMsg('Material eliminado.');load()}catch(e){setMsg(e.message)}};
+
+ const save=async x=>{
+  try{
+   const wasEditing=Boolean(editing);
+   if(wasEditing)await api.updateMaterial(editing.id_material,x);else await api.createMaterial(x);
+   setEditing(null);await load();
+   setMsg({type:'success',text:wasEditing?'Material y reto actualizados correctamente.':'Material y reto registrados correctamente.'});
+   return true;
+  }catch(e){setMsg({type:'error',text:e.message||'No se pudo guardar el material.'});return false}
+ };
+
+ const startEdit=async row=>{
+  try{
+   setMsg(null);
+   const preguntas=await api.challenge(row.id_material);
+   setEditing({...row,preguntas});
+   window.scrollTo({top:0,behavior:'smooth'});
+  }catch(e){setMsg({type:'error',text:e.message||'No se pudieron cargar las preguntas del material.'})}
+ };
+
+ const del=async id=>{
+  if(!confirm('¿Eliminar este material?'))return;
+  try{await api.deleteMaterial(id);setMsg({type:'success',text:'Material eliminado.'});await load()}
+  catch(e){setMsg({type:'error',text:e.message})}
+ };
+
  const user=(()=>{try{return JSON.parse(localStorage.getItem('quillo_user'))}catch{return null}})();
- return <main className="pageSurface"><section className="pageHero teacherHero"><div><span className="eyebrow">PANEL DEL DOCENTE</span><h1>Gestión de materiales</h1><p>Crea, organiza y actualiza recursos para Matemática y Comunicación.</p></div><div className="profileChip"><span>{(user?.nombre||'Docente').slice(0,1).toUpperCase()}</span><div><b>{user?.nombre||'Docente'}</b><small>Docente autorizado</small></div><button onClick={()=>{localStorage.clear();location.reload()}}>Salir</button></div></section>
- {msg&&<div className="notice">✓ {msg}</div>}
- <section className="teacherDashboard">
-  <aside className="teacherRail panel"><div className="railHeader"><span>✎</span><div><b>Panel docente</b><small>Quillo Aprende</small></div></div><button className="railActive">＋ Crear material</button><button>▤ Mis materiales <span>{rows.length}</span></button><button>⌕ Buscar y filtrar</button><div className="railInfo"><b>Contenido educativo</b><p>Organiza materiales por nivel, área y subárea para facilitar la navegación del estudiante.</p></div></aside>
-  <div className="teacherMain"><Formulario initial={editing} onSave={save} catalog={catalog} onCancel={()=>setEditing(null)}/><section className="panel materialsPanel"><div className="sectionHeading"><span className="sectionIcon blue">▤</span><div><h3>Materiales registrados</h3><p>Busca, edita o elimina recursos publicados.</p></div><span className="countBadge">{filtered.length} visibles</span></div><div className="filters3"><input placeholder="⌕ Buscar por palabra" value={q} onChange={e=>setQ(e.target.value)}/><select value={nivel} onChange={e=>setNivel(e.target.value)}><option value="">Todos los niveles</option>{catalog.levels.map(x=><option key={x.id_nivel} value={x.id_nivel}>{x.nombre}</option>)}</select><select value={area} onChange={e=>setArea(e.target.value)}><option value="">Todas las áreas</option>{catalog.areas.map(x=><option key={x.id_area} value={x.id_area}>{x.nombre}</option>)}</select></div><Tabla rows={filtered} onEdit={setEditing} onDelete={del}/></section></div>
- </section></main>
+ return <main className="pageSurface">
+  <section className="pageHero teacherHero"><div><span className="eyebrow">PANEL DEL DOCENTE</span><h1>Gestión de materiales</h1><p>Crea, organiza y actualiza recursos para Matemática y Comunicación.</p></div><div className="profileChip"><span>{(user?.nombre||'Docente').slice(0,1).toUpperCase()}</span><div><b>{user?.nombre||'Docente'}</b><small>Docente autorizado</small></div><button onClick={()=>{localStorage.clear();location.reload()}}>Salir</button></div></section>
+  {msg&&<div className={msg.type==='error'?'error':'notice'}>{msg.type==='error'?'⚠ ':'✓ '}{msg.text}</div>}
+  <section className="teacherDashboard">
+   <aside className="teacherRail panel"><div className="railHeader"><span>✎</span><div><b>Panel docente</b><small>Quillo Aprende</small></div></div><button className="railActive">＋ Crear material</button><button>▤ Mis materiales <span>{rows.length}</span></button><button>⌕ Buscar y filtrar</button><div className="railInfo"><b>Contenido educativo</b><p>Organiza materiales por nivel, área y subárea para facilitar la navegación del estudiante.</p></div></aside>
+   <div className="teacherMain"><Formulario initial={editing} onSave={save} catalog={catalog} onCancel={()=>setEditing(null)}/><section className="panel materialsPanel"><div className="sectionHeading"><span className="sectionIcon blue">▤</span><div><h3>Materiales registrados</h3><p>Busca, edita o elimina recursos publicados.</p></div><span className="countBadge">{filtered.length} visibles</span></div><div className="filters3"><input placeholder="⌕ Buscar por palabra" value={q} onChange={e=>setQ(e.target.value)}/><select value={nivel} onChange={e=>setNivel(e.target.value)}><option value="">Todos los niveles</option>{catalog.levels.map(x=><option key={x.id_nivel} value={x.id_nivel}>{x.nombre}</option>)}</select><select value={area} onChange={e=>setArea(e.target.value)}><option value="">Todas las áreas</option>{catalog.areas.map(x=><option key={x.id_area} value={x.id_area}>{x.nombre}</option>)}</select></div><Tabla rows={filtered} onEdit={startEdit} onDelete={del}/></section></div>
+  </section>
+ </main>
 }
