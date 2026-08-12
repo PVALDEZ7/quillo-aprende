@@ -1,1 +1,11 @@
-export default function Menu({go}){return <nav className="menu"><button onClick={()=>go('home')}>Inicio</button><button onClick={()=>go('student')}>Estudiante</button><button onClick={()=>go('teacher-login')}>Docente</button><button onClick={()=>go('admin-login')}>Administrador</button></nav>}
+const items=[
+  {view:'home',icon:'⌂',label:'Inicio'},
+  {view:'student',icon:'▤',label:'Aprende'},
+  {view:'teacher-login',icon:'✎',label:'Docente'},
+  {view:'admin-login',icon:'⚙',label:'Administrador'}
+];
+export default function Menu({go}){
+  return <nav className="appNav" aria-label="Navegación principal"><div className="appNavInner">
+    {items.map(i=><button key={i.view} type="button" onClick={()=>go(i.view)}><span aria-hidden="true">{i.icon}</span>{i.label}</button>)}
+  </div></nav>
+}
